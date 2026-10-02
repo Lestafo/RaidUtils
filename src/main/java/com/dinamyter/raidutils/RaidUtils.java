@@ -89,7 +89,7 @@ public class RaidUtils {
 
     public void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
-                Commands.literal("raido")
+                Commands.literal("raidutils")
                         .requires(executor -> executor.hasPermission(1))
                         .then(
                                 Commands.literal("start")
@@ -111,8 +111,8 @@ public class RaidUtils {
     private static int startRaid(CommandSourceStack source, int level, Coordinates location) throws CommandSyntaxException {
         ServerPlayer serverplayer = source.getPlayerOrException();
         BlockPos blockpos = serverplayer.blockPosition();
-        Raids raids = serverplayer.serverLevel().getRaids();
-        Raid raid = raids.createOrExtendRaid(serverplayer, location.getBlockPos(source));
+        Raids raids = source.getLevel().getRaids();
+        Raid raid = raids.createOrExtendRaid(serverplayer, location.getBlockPos(source)); //TODO: Transform raids.java getOrCreateRaid to public to untie from player, or do a mixin
         if (raid != null) {
             raid.setRaidOmenLevel(level);
             raids.setDirty();

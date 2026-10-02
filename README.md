@@ -1,25 +1,52 @@
 
-Installation information
+Raid Utils
 =======
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+This is my first ~~(second, but we don't talk about the actual first)~~ mod for minecraft. Made due to a friend's request
+Raid utils is intended to be a utility mod for server owners, allowing them to control and monitor different aspects of minecraft raids.
+As of now, the mod is rather bare-bones, fulfilling only the specifics requested by my friend.   
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+## Features: ##
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+### /raidutils start
+ ````
+ Arguments:
+  omen_lvl: integer equivalent of the Bad Omen effect the raid should have
+  position: coordinates where the raid should take place. MUST be at/near a village as to not interfere with other raid mods   
+  
+ Starts a raid with the assigned level at the specified coordinates.
+ The command returns a success message containing the ID of the raid. 
+ ````
+  
 
-Additional Resources: 
+
+### /raidutils stop
+````
+Arguments: 
+ RaidId: the ID of the raid.
+
+It will stop an ongoing raid with the given ID.
+
+````
+Upon victory, the mod sends a server message indicating the raid has been victorious, which can then be parsed by an external script, allowing for customized rewards and events.
+
+## Why
+
+You might know by now that Minecraft already has (debug-level) commands for starting and stopping raids. In fact, my mod utilized the vanilla commands as a base.    
+**HOWEVER**, the vanilla raid commands require a player to be standing at the position the raid will start in. This mod allows the server to remotely start a raid at any village.   
+Vanilla raids also do not have a handy way of detecting when they are over and if anyone is victorious unless you count checking the hero of the village effect at every *X* seconds.
+
+
+CONSIDERATIONS: 
 ==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+Keep in mind that this is my first mod and i'm not too familiar with the ecosystem nor with minecraft's own internal logic.   
+The mod is in its early stages and is bound to change radically going into the future.   
+Any feedback, requests, tips or suggestions are more than welcome.
+
+PLANNED/UPCOMING FEATURES:
+===========
+- Greater customization of raids
+- Integration with other raid mods
+- Embedded loot table for raid rewards independent of external scripts
+- Make raid command less dependent on player presence
