@@ -102,7 +102,10 @@ public class RaidUtils {
                         )
                         .then(Commands.literal("stop")
                                 .then(Commands.argument("Raid_Id", IntegerArgumentType.integer())
-                                .executes(context -> stopRaid(context.getSource(),IntegerArgumentType.getInteger(context,"Raid_Id")))))
+                                .executes(context -> stopRaid(context.getSource(),IntegerArgumentType.getInteger(context,"Raid_Id"))))
+                        )
+                        .then(Commands.literal("query")
+                                .executes(context->queryTrackedRaids(context.getSource())))
 
 
         );
@@ -128,6 +131,17 @@ public class RaidUtils {
 
         return 1;
 
+    }
+
+    private static int queryTrackedRaids(CommandSourceStack source){ //TODO: known bug: If server closes while raids are open, loses track
+        if (trackedRaids.isEmpty())
+            return 0;
+        Raids raids = source.getLevel().getRaids();
+        for(int id : trackedRaids){
+            source.sendSuccess(()-> net.minecraft.network.chat.Component.literal(
+                    "Found raid with ID {" + id + "} at: " + raids.get(id).getCenter().toShortString()), true);
+        }
+        return 1;
     }
 
     public static void onServerTick(ServerTickEvent.Post event) {

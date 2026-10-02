@@ -50,3 +50,4 @@ PLANNED/UPCOMING FEATURES:
 - Integration with other raid mods
 - Embedded loot table for raid rewards independent of external scripts
 - Make raid command less dependent on player presence
+- Create unique raid that doesn't require a village.
