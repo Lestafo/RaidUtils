@@ -116,7 +116,7 @@ public class RaidUtils {
         BlockPos blockpos = serverplayer.blockPosition();
         Raids raids = source.getLevel().getRaids();
         Raid raid = raids.createOrExtendRaid(serverplayer, location.getBlockPos(source)); //TODO: Transform raids.java getOrCreateRaid to public to untie from player, or do a mixin
-        if (raid != null) {
+        if (raid != null && source.getLevel().isVillage(raid.getCenter())) {
             raid.setRaidOmenLevel(level);
             raids.setDirty();
             source.sendSuccess(() -> net.minecraft.network.chat.Component.literal(
@@ -125,11 +125,12 @@ public class RaidUtils {
             trackedRaids.add(raid.getId());
             IEventBus eventBus = NeoForge.EVENT_BUS;
             eventBus.addListener(RaidUtils::onServerTick);
+            return 1;
         } else {
-            source.sendFailure(Component.literal("Failed to create a raid in your local village"));
+            source.sendFailure(Component.literal("Failed to create a raid in the given position, possibly not a village"));
         }
 
-        return 1;
+        return 0;
 
     }
 
@@ -153,6 +154,9 @@ public class RaidUtils {
 
                     // Your code here
 
+                    trackedRaids.remove(id);
+                }else {
+                    level.getServer().createCommandSourceStack().sendFailure(Component.literal("Derrota"));
                     trackedRaids.remove(id);
                 }
             }
