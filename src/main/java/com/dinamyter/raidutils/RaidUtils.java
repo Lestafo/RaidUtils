@@ -134,13 +134,11 @@ public class RaidUtils {
     }
 
     private static int queryTrackedRaids(CommandSourceStack source){ //TODO: known bug: If server closes while raids are open, loses track
-        if (trackedRaids.isEmpty())
-            return 0;
+
         Raids raids = source.getLevel().getRaids();
-        for(int id : trackedRaids){
-            source.sendSuccess(()-> net.minecraft.network.chat.Component.literal(
-                    "Found raid with ID {" + id + "} at: " + raids.get(id).getCenter().toShortString()), true);
-        }
+        raids.raidMap.forEach((id,raid) -> source.sendSuccess(() -> net.minecraft.network.chat.Component.literal(
+                "Found a raid in:" + raid.getCenter().toShortString() + " And of Id: {" + raid.getId() + "}"
+        ), false));
         return 1;
     }
 

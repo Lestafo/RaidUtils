@@ -29,6 +29,15 @@ Arguments:
 It will stop an ongoing raid with the given ID.
 
 ````
+
+### /raidutils query
+````
+Arguments: 
+ none
+
+Returns all ongoing raids
+
+````
 Upon victory, the mod sends a server message indicating the raid has been victorious, which can then be parsed by an external script, allowing for customized rewards and events.
 
 ## Why
